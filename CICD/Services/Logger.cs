@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CICDSync.Services;
 
-public class Logger
+public class Logger : ILogger
 {
     private readonly string logFile;
 
