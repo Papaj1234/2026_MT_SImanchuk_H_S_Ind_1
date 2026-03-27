@@ -16,7 +16,7 @@ public class Logger
 
         string fileName = $"CICD_{dirName}_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.log";
 
-        string logDir = Directory.GetParent(targetDir)!.FullName;
+        string logDir = targetDir;
 
         logFile = Path.Combine(logDir, fileName);
     }
