@@ -10,10 +10,10 @@ namespace CICDSync.Services;
 
 public class PipelineRunner
 {
-    private readonly CommandExecutor executor;
-    private readonly Logger logger;
+    private readonly ICommandExecutor executor;
+    private readonly ILogger logger;
 
-    public PipelineRunner(CommandExecutor executor, Logger logger)
+    public PipelineRunner(ICommandExecutor executor, ILogger logger)
     {
         this.executor = executor;
         this.logger = logger;
