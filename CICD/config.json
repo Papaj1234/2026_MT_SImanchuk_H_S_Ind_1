@@ -1,0 +1,28 @@
+﻿{
+  "pipeline": [
+    {
+      "name": "Git Clone",
+      "command": "git",
+      "args": "clone https://gitlab.com/antonoveducationprojects/codeexamples/cs/task-skeletons/vector-and-matrix-intern-edu-project repo",
+      "stopOnFailure": true
+    },
+    {
+      "name": "Clean",
+      "command": "dotnet",
+      "args": "clean repo",
+      "stopOnFailure": true
+    },
+    {
+      "name": "Build",
+      "command": "dotnet",
+      "args": "build repo",
+      "stopOnFailure": true
+    },
+    {
+      "name": "Unit Tests",
+      "command": "dotnet",
+      "args": "test repo",
+      "stopOnFailure": false
+    }
+  ]
+}
