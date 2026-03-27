@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CICDSync.Services;
 
-public class CommandExecutor
+public class CommandExecutor : ICommandExecutor
 {
     private readonly Logger logger;
 
