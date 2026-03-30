@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using CICDSync.Models;
 
 namespace CICDSync.Services;
@@ -11,6 +10,7 @@ namespace CICDSync.Services;
 public class PipelineRunner
 {
     private readonly ICommandExecutor executor;
+
     private readonly ILogger logger;
 
     public PipelineRunner(ICommandExecutor executor, ILogger logger)
@@ -27,6 +27,13 @@ public class PipelineRunner
             return;
         }
 
+        if (!config.Pipeline.Any())
+        {
+            logger.Info("Pipeline is empty, nothing to run.");
+            return;
+        }
+
+        bool success = true;
         foreach (var step in config.Pipeline)
         {
             logger.Info($"Starting stage: {step.Name}");
@@ -39,14 +46,23 @@ public class PipelineRunner
             }
             else
             {
+                success = false;
                 logger.Error($"Stage '{step.Name}' failed with ExitCode {exitCode}");
-
                 if (step.StopOnFailure)
                 {
                     logger.Error("Stopping pipeline.");
                     break;
                 }
             }
+        }
+        if (success)
+        {
+            logger.Success("Pipeline completed successfully.");
+        }
+
+        else
+        {
+            logger.Error("Pipeline finished with errors.");
         }
     }
 }
