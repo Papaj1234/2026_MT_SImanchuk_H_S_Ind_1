@@ -9,31 +9,39 @@ namespace CICDSync.Services;
 
 public class CommandExecutor : ICommandExecutor
 {
-    private readonly Logger logger;
 
-    public CommandExecutor(Logger logger)
+    private readonly ILogger logger;
+
+    public CommandExecutor(ILogger logger)
     {
         this.logger = logger;
     }
 
     public int Execute(string command, string args, string workingDir)
     {
-        var process = new Process();
-        process.StartInfo.FileName = command;
-        process.StartInfo.Arguments = args;
-        process.StartInfo.WorkingDirectory = workingDir;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.UseShellExecute = false;
+        try
+        {
+            using var process = new Process();
 
-        process.OutputDataReceived += (_, e) => { if (e.Data != null) Console.WriteLine(e.Data); };
-        process.ErrorDataReceived += (_, e) => { if (e.Data != null) Console.Error.WriteLine(e.Data); };
+            process.StartInfo.FileName = command;
+            process.StartInfo.Arguments = args;
+            process.StartInfo.WorkingDirectory = workingDir;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.OutputDataReceived += (_, e) => { if (e.Data != null) logger.Info(e.Data); };
+            process.ErrorDataReceived += (_, e) => { if (e.Data != null) logger.Error(e.Data); };
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            return process.ExitCode;
+        }
 
-        process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        process.WaitForExit();
-
-        return process.ExitCode;
+        catch (Exception ex)
+        {
+            logger.Error($"Failed to execute '{command}': {ex.Message}");
+            return -1;
+        }
     }
 }
