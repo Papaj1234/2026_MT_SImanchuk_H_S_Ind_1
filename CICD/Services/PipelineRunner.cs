@@ -3,58 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CICDSync.Models;
 
 namespace CICDSync.Services;
 
 public class PipelineRunner
 {
-    private readonly ICommandExecutor executor;
-
+    private readonly PipelineStepExecutor stepExecutor;
     private readonly ILogger logger;
 
-    public PipelineRunner(ICommandExecutor executor, ILogger logger)
+    public PipelineRunner(PipelineStepExecutor stepExecutor, ILogger logger)
     {
-        this.executor = executor;
+        this.stepExecutor = stepExecutor;
         this.logger = logger;
     }
 
     public void Run(PipelineConfig? config, string targetDir)
     {
+        if (!IsValidConfig(config))
+            return;
+
+        bool result = RunPipeline(config!, targetDir);
+
+        LogFinalResult(result);
+    }
+
+    private bool IsValidConfig(PipelineConfig? config)
+    {
         if (config is null)
         {
             logger.Error("Config is null.");
-            return;
+            return false;
         }
 
         if (!config.Pipeline.Any())
         {
             logger.Info("Pipeline is empty, nothing to run.");
-            return;
+            return false;
         }
 
-        bool success = true;
+        return true;
+    }
+
+    private bool RunPipeline(PipelineConfig config, string targetDir)
+    {
         foreach (var step in config.Pipeline)
         {
-            logger.Info($"Starting stage: {step.Name}");
+            bool success = stepExecutor.Execute(step, targetDir);
 
-            int exitCode = executor.Execute(step.Command, step.Args, targetDir);
-
-            if (exitCode == 0)
+            if (!success && step.StopOnFailure)
             {
-                logger.Success($"Stage '{step.Name}' finished with ExitCode {exitCode}");
-            }
-            else
-            {
-                success = false;
-                logger.Error($"Stage '{step.Name}' failed with ExitCode {exitCode}");
-                if (step.StopOnFailure)
-                {
-                    logger.Error("Stopping pipeline.");
-                    break;
-                }
+                logger.Error("Stopping pipeline.");
+                return false;
             }
         }
+
+        return true;
+    }
+
+    private void LogFinalResult(bool success)
+    {
         if (success)
         {
             logger.Success("Pipeline completed successfully.");
@@ -63,6 +70,6 @@ public class PipelineRunner
         else
         {
             logger.Error("Pipeline finished with errors.");
-        }
+        }    
     }
 }

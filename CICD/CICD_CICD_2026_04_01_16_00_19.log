@@ -1,0 +1,5 @@
+[2026-04-01 16:00:19] [INFO] Starting stage: Git Clone
+[2026-04-01 16:00:19] [ERROR] fatal: destination path 'repo' already exists and is not an empty directory.
+[2026-04-01 16:00:19] [ERROR] Stage 'Git Clone' failed with ExitCode 128
+[2026-04-01 16:00:19] [ERROR] Stopping pipeline.
+[2026-04-01 16:00:19] [ERROR] Pipeline finished with errors.
