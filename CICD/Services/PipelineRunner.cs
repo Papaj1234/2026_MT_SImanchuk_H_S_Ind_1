@@ -20,7 +20,10 @@ public class PipelineRunner
     public void Run(PipelineConfig? config, string targetDir)
     {
         if (!IsValidConfig(config))
+        {
             return;
+        }
+            
 
         bool result = RunPipeline(config!, targetDir);
 
