@@ -12,7 +12,7 @@ public class PipelineConfigValidator
     private readonly PipelineStepExecutor stepExecutor;
     private readonly ILogger logger;
 
-    public PipelineRunner(PipelineStepExecutor stepExecutor, ILogger logger)
+    public PipelineConfigValidator(PipelineStepExecutor stepExecutor, ILogger logger)
     {
         this.stepExecutor = stepExecutor;
         this.logger = logger;

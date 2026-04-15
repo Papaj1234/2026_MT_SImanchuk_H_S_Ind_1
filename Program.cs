@@ -38,7 +38,7 @@ namespace CICD
             var logger = new Logger(workDir);
             var executor = new CommandExecutor(logger);
             var stepExecutor = new PipelineStepExecutor(executor, logger);
-            var runner = new PipelineRunner(stepExecutor, logger);
+            var runner = new PipelineConfigValidator(stepExecutor, logger);
 
             runner.Run(config, targetDir);
         }
