@@ -35,10 +35,11 @@ namespace CICD
 
             var workDir = Path.GetDirectoryName(Path.GetFullPath(configPath))!;
 
-            var logger = new Logger(workDir);
+            var logger = new Logger(targetDir);
             var executor = new CommandExecutor(logger);
             var stepExecutor = new PipelineStepExecutor(executor, logger);
-            var runner = new PipelineConfigValidator(stepExecutor, logger);
+            var validator = new PipelineConfigValidator(logger);
+            var runner = new PipelineRunner(stepExecutor, validator, logger);
 
             runner.Run(config, targetDir);
         }
