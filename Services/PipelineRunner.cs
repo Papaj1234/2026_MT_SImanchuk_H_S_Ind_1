@@ -22,7 +22,7 @@ public class PipelineRunner
 
 	public void Run(PipelineConfig? config, string targetDir)
 	{
-		if (!validator.Validate(config)
+		if (!validator.Validate(config))
 		{
 			return;
 		}
