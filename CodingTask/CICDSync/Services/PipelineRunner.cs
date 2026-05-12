@@ -1,11 +1,13 @@
-using CICDSync.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CICDSync.Services;
+using CodingTask.CICDSync.Interfaces;
+using CodingTask.CICDSync.Models;
+
+namespace CodingTask.CICDSync.Services;
 
 public class PipelineRunner
 {
@@ -22,26 +24,30 @@ public class PipelineRunner
 
     public void Run(PipelineConfig? config, string targetDir)
     {
-        if (!validator.Validate(config))
+        ArgumentNullException.ThrowIfNull(config);
+        ArgumentNullException.ThrowIfNull(targetDir);
+
+        if (!this.validator.Validate(config))
         {
             return;
         }
 
-        bool success = RunPipeline(config!, targetDir);
-        LogFinalResult(success);
+        bool success = this.RunPipeline(config!, targetDir);
+        this.LogFinalResult(success);
     }
 
     private bool RunPipeline(PipelineConfig config, string targetDir)
     {
         foreach (var step in config.Pipeline)
         {
-            bool success = stepExecutor.Execute(step, targetDir);
+            bool success = this.stepExecutor.Execute(step, targetDir);
             if (!success && step.StopOnFailure)
             {
-                logger.Error("Stopping pipeline.");
+                this.logger.LogError("Stopping pipeline.");
                 return false;
             }
         }
+
         return true;
     }
 
@@ -49,12 +55,11 @@ public class PipelineRunner
     {
         if (success)
         {
-            logger.Success("Pipeline completed successfully.");
+            this.logger.Success("Pipeline completed successfully.");
         }
-
         else
         {
-            logger.Error("Pipeline finished with errors.");
+            this.logger.LogError("Pipeline finished with errors.");
         }
     }
 }

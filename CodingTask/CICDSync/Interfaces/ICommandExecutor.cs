@@ -1,4 +1,4 @@
-namespace CICDSync.Services;
+namespace CodingTask.CICDSync.Services;
 
 public interface ICommandExecutor
 {

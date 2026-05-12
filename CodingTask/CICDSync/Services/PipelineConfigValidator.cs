@@ -1,11 +1,13 @@
-﻿using CICDSync.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CICDSync.Services;
+using CodingTask.CICDSync.Interfaces;
+using CodingTask.CICDSync.Models;
+
+namespace CodingTask.CICDSync.Services;
 
 public class PipelineConfigValidator
 {
@@ -13,6 +15,7 @@ public class PipelineConfigValidator
 
     public PipelineConfigValidator(ILogger logger)
     {
+        ArgumentNullException.ThrowIfNull(logger);
         this.logger = logger;
     }
 
@@ -20,13 +23,13 @@ public class PipelineConfigValidator
     {
         if (config is null)
         {
-            logger.Error("Config is null.");
+            this.logger.LogError("Config is null.");
             return false;
         }
 
-        if (!config.Pipeline.Any())
+        if (config.Pipeline.Count == 0)
         {
-            logger.Info("Pipeline is empty, nothing to run.");
+            this.logger.Info("Pipeline is empty, nothing to run.");
             return false;
         }
 

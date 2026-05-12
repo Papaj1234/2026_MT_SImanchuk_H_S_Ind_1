@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CICDSync.Models;
+using CodingTask.CICDSync.Interfaces;
+using CodingTask.CICDSync.Models;
 
-namespace CICDSync.Services;
+namespace CodingTask.CICDSync.Services;
 
 public class PipelineStepExecutor
 {
@@ -21,17 +22,17 @@ public class PipelineStepExecutor
 
     public bool Execute(PipelineStep step, string targetDir)
     {
-        logger.Info($"Starting stage: {step.Name}");
+        this.logger.Info($"Starting stage: {step.Name}");
 
-        int exitCode = executor.Execute(step.Command, step.Args, targetDir);
+        int exitCode = this.executor.Execute(step.Command, step.Args, targetDir);
 
         if (exitCode == 0)
         {
-            logger.Success($"Stage '{step.Name}' finished with ExitCode {exitCode}");
+            this.logger.Success($"Stage '{step.Name}' finished with ExitCode {exitCode}");
             return true;
         }
 
-        logger.Error($"Stage '{step.Name}' failed with ExitCode {exitCode}");
+        this.logger.LogError($"Stage '{step.Name}' failed with ExitCode {exitCode}");
         return false;
     }
 }
