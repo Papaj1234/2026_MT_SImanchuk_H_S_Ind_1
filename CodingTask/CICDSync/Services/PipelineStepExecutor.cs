@@ -22,7 +22,7 @@ public class PipelineStepExecutor
 
     public bool Execute(PipelineStep step, string targetDir)
     {
-        this.logger.Info($"Starting stage: {step.Name}");
+        this.logger.Info($"Starting stage: {step?.Name}");
 
         int exitCode = this.executor.Execute(step.Command, step.Args, targetDir);
 

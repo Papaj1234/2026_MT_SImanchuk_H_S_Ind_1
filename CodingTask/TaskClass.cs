@@ -2,7 +2,7 @@
 
 namespace CodingTask
 {
-    public class TaskClass
+    public static class TaskClass
     {
         public static int Main()
         {

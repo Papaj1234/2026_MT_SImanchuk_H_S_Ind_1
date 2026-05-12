@@ -19,7 +19,7 @@ public class PipelineConfigValidator
         this.logger = logger;
     }
 
-    public bool Validate(PipelineConfig? config)
+    public bool Validate(PipelineConfig config)
     {
         if (config is null)
         {

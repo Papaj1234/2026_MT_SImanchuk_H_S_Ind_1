@@ -22,7 +22,7 @@ public class PipelineRunner
         this.logger = logger;
     }
 
-    public void Run(PipelineConfig? config, string targetDir)
+    public void Run(PipelineConfig config, string targetDir)
     {
         ArgumentNullException.ThrowIfNull(config);
         ArgumentNullException.ThrowIfNull(targetDir);
