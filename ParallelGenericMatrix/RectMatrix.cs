@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Numerics;
 
 namespace ParallelGenericMatrix
 {
-    internal class RectMatrix<T> : IMatrix<T> where T : INumber<T>
+    internal sealed class RectMatrix<T> : IMatrix<T> where T : INumber<T>
     {
         private readonly T[,] data;
 
