@@ -34,7 +34,6 @@ namespace ParallelGenericMatrix
             int rows = reader.ReadInt32();
             int cols = reader.ReadInt32();
             var matrix = new RectMatrix<T>(rows, cols);
-
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -51,29 +50,25 @@ namespace ParallelGenericMatrix
             {
                 return (T)(object)reader.ReadInt32();
             }
-
             if (typeof(T) == typeof(double))
             {
                 return (T)(object)reader.ReadDouble();
             }
-
             if (typeof(T) == typeof(float))
             {
                 return (T)(object)reader.ReadSingle();
             }
-
             if (typeof(T) == typeof(long))
             {
                 return (T)(object)reader.ReadInt64();
             }
-
             throw new NotSupportedException($"Type {typeof(T)} is not supported.");
         }
 
         public IMatrix<T> AddByRowsSequential(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, Cols);
-
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
@@ -86,8 +81,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> AddByRowsParallel(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, Cols);
-
             Parallel.For(0, Rows, i =>
             {
                 for (int j = 0; j < Cols; j++)
@@ -100,8 +95,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> AddByColumnsSequential(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, Cols);
-
             for (int j = 0; j < Cols; j++)
             {
                 for (int i = 0; i < Rows; i++)
@@ -114,8 +109,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> AddByColumnsParallel(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, Cols);
-
             Parallel.For(0, Cols, j =>
             {
                 for (int i = 0; i < Rows; i++)
@@ -128,8 +123,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplySequential(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < other.Cols; j++)
@@ -145,8 +140,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplyParallel(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             Parallel.For(0, Rows, i =>
             {
                 for (int j = 0; j < other.Cols; j++)
@@ -162,8 +157,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplyOptimSequential(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             for (int i = 0; i < Rows; i++)
             {
                 for (int k = 0; k < Cols; k++)
@@ -179,8 +174,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplyOptimParallel(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             Parallel.For(0, Rows, i =>
             {
                 for (int k = 0; k < Cols; k++)
@@ -196,8 +191,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplyNaiveSequential(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             for (int j = 0; j < other.Cols; j++)
             {
                 for (int i = 0; i < Rows; i++)
@@ -213,8 +208,8 @@ namespace ParallelGenericMatrix
 
         public IMatrix<T> MultiplyNaiveParallel(IMatrix<T> other)
         {
+            ArgumentNullException.ThrowIfNull(other);
             var result = new RectMatrix<T>(Rows, other.Cols);
-
             Parallel.For(0, other.Cols, j =>
             {
                 for (int i = 0; i < Rows; i++)
