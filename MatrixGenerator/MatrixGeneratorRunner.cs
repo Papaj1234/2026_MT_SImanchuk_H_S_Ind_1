@@ -7,27 +7,24 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal sealed class MatrixGeneratorRunner
+    internal static class MatrixGeneratorRunner
     {
-        private readonly MatrixFileWriter writer = new();
-        private readonly RandomMatrixSource random = new();
+        private static readonly RandomMatrixSource Random = new();
 
-        internal void Run(string outputDir)
+        internal static void Run(string outputDir)
         {
             Directory.CreateDirectory(outputDir);
             var fixed10 = new FixedMatrixSource(Get10x10());
-
             GeneratePair(outputDir, "matrix_10x10", 10, 10, fixed10);
-            GeneratePair(outputDir, "matrix_500x500", 500, 500, random);
-            GeneratePair(outputDir, "matrix_2000x2000", 2000, 2000, random);
-
+            GeneratePair(outputDir, "matrix_500x500", 500, 500, Random);
+            GeneratePair(outputDir, "matrix_2000x2000", 2000, 2000, Random);
             Console.WriteLine("Done: " + Path.GetFullPath(outputDir));
         }
 
-        private void GeneratePair(string dir, string name, int rows, int cols, IMatrixSource source)
+        private static void GeneratePair(string dir, string name, int rows, int cols, IMatrixSource source)
         {
-            writer.Write(Path.Combine(dir, $"{name}_A.bin"), source.Generate(rows, cols));
-            writer.Write(Path.Combine(dir, $"{name}_B.bin"), source.Generate(rows, cols));
+            MatrixFileWriter.Write(Path.Combine(dir, $"{name}_A.bin"), source.Generate(rows, cols));
+            MatrixFileWriter.Write(Path.Combine(dir, $"{name}_B.bin"), source.Generate(rows, cols));
             Console.WriteLine($"Generated {name}");
         }
 

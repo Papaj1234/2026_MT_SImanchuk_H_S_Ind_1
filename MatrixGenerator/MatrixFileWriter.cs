@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal sealed class MatrixFileWriter
+    internal static class MatrixFileWriter
     {
-        internal void Write(string path, double[,] matrix)
+        internal static void Write(string path, double[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
