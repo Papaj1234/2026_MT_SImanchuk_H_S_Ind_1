@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CodingTask\CodingTask.csproj" />
+    <ProjectReference Include="..\ParallelGenericMatrix\ParallelGenericMatrix.csproj" />
   </ItemGroup>
 
 </Project>
