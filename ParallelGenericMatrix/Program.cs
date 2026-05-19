@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace ParallelGenericMatrix
 {
@@ -41,6 +43,5 @@ namespace ParallelGenericMatrix
             sw.Stop();
             Console.WriteLine($"{label} | {method}: {sw.ElapsedMilliseconds} ms");
         }
-    }
     }
 }
