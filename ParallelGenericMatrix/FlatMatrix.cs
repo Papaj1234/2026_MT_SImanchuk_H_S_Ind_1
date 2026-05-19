@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace ParallelGenericMatrix
 {
-    internal sealed class FlatMatrix<T> : IMatrix<T> where T : INumber<T>
+    public sealed class FlatMatrix<T> : IMatrix<T> where T : INumber<T>
     {
         private readonly T[] data;
 

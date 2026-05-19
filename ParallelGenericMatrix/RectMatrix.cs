@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace ParallelGenericMatrix
 {
-    internal sealed class RectMatrix<T> : IMatrix<T> where T : INumber<T>
+    public sealed class RectMatrix<T> : IMatrix<T> where T : INumber<T>
     {
         private readonly T[,] data;
 
