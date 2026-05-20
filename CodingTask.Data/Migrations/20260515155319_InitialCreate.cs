@@ -8,6 +8,10 @@ namespace Data.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
+        private static readonly string[] BuildStagesColumns = { "ProjectId", "StageTypeId", "StartedAt" };
+
+        private static readonly string[] HostConfigurationsColumns = { "CpuModel", "PhysicalCoreCount", "LogicalThreadCount", "RamGb", "OperatingSystem" };
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -181,7 +185,7 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BuildStages_ProjectId_StageTypeId_StartedAt",
                 table: "BuildStages",
-                columns: new[] { "ProjectId", "StageTypeId", "StartedAt" },
+                columns: BuildStagesColumns,
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -203,7 +207,7 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_HostConfigurations_CpuModel_PhysicalCoreCount_LogicalThreadCount_RamGb_OperatingSystem",
                 table: "HostConfigurations",
-                columns: new[] { "CpuModel", "PhysicalCoreCount", "LogicalThreadCount", "RamGb", "OperatingSystem" },
+                columns: HostConfigurationsColumns,
                 unique: true);
 
             migrationBuilder.CreateIndex(
