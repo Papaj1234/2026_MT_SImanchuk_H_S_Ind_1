@@ -50,12 +50,28 @@ public class DatabaseSeeder
         var log = this.factory.CreateIssueLog(buildStage.Id, warningSeverity.Id);
         await this.uow.IssueLogs.AddAsync(log).ConfigureAwait(false);
 
-        var host = this.factory.CreateHostConfiguration();
+        var cpuModel = this.factory.CreateCpuModel();
+        await this.uow.CpuModels.AddAsync(cpuModel).ConfigureAwait(false);
+        await this.uow.SaveChangesAsync().ConfigureAwait(false);
+
+        var operatingSystem = this.factory.CreateOperatingSystem();
+        await this.uow.OperatingSystems.AddAsync(operatingSystem).ConfigureAwait(false);
+        await this.uow.SaveChangesAsync().ConfigureAwait(false);
+
+        var host = this.factory.CreateHostConfiguration(cpuModel.Id, operatingSystem.Id);
         await this.uow.HostConfigurations.AddAsync(host).ConfigureAwait(false);
         await this.uow.SaveChangesAsync().ConfigureAwait(false);
 
         var metric = this.factory.CreateThreadSpeedMetric(buildStage.Id, host.Id);
         await this.uow.ThreadSpeedMetrics.AddAsync(metric).ConfigureAwait(false);
+        await this.uow.SaveChangesAsync().ConfigureAwait(false);
+
+        var projectLatin = this.factory.CreateProjectLatin();
+        await this.uow.Projects.AddAsync(projectLatin).ConfigureAwait(false);
+
+        var projectCyrillic = this.factory.CreateProjectCyrillic();
+        await this.uow.Projects.AddAsync(projectCyrillic).ConfigureAwait(false);
+
         await this.uow.SaveChangesAsync().ConfigureAwait(false);
     }
 }
