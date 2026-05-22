@@ -26,6 +26,10 @@ public class AppDbContext : DbContext
 
     public DbSet<ThreadSpeedMetric> ThreadSpeedMetrics => this.Set<ThreadSpeedMetric>();
 
+    public DbSet<CpuModel> CpuModels => this.Set<CpuModel>();
+
+    public DbSet<Entities.OperatingSystem> OperatingSystems => this.Set<Entities.OperatingSystem>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Project>()
@@ -44,15 +48,16 @@ public class AppDbContext : DbContext
             .HasIndex(s => s.Name)
             .IsUnique();
 
+        modelBuilder.Entity<CpuModel>()
+            .HasIndex(c => new { c.Manufacturer, c.Model })
+            .IsUnique();
+
+        modelBuilder.Entity<Entities.OperatingSystem>()
+            .HasIndex(o => new { o.Name, o.Version })
+            .IsUnique();
+
         modelBuilder.Entity<HostConfiguration>()
-            .HasIndex(h => new
-            {
-                h.CpuModel,
-                h.PhysicalCoreCount,
-                h.LogicalThreadCount,
-                h.RamGb,
-                h.OperatingSystem,
-            })
+            .HasIndex(h => new { h.CpuModelId, h.RamGb, h.OperatingSystemId })
             .IsUnique();
 
         modelBuilder.Entity<BuildStage>()
