@@ -8,9 +8,13 @@ namespace Data.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        private static readonly string[] BuildStagesColumns = { "ProjectId", "StageTypeId", "StartedAt" };
+        private static readonly string[] BuildStagesIndexColumns = { "ProjectId", "StageTypeId", "StartedAt" };
 
-        private static readonly string[] HostConfigurationsColumns = { "CpuModel", "PhysicalCoreCount", "LogicalThreadCount", "RamGb", "OperatingSystem" };
+        private static readonly string[] CpuModelsIndexColumns = { "Manufacturer", "Model" };
+
+        private static readonly string[] HostConfigurationsIndexColumns = { "CpuModelId", "RamGb", "OperatingSystemId" };
+
+        private static readonly string[] OperatingSystemsIndexColumns = { "Name", "Version" };
 
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,20 +33,19 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HostConfigurations",
+                name: "CpuModels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CpuModel = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Manufacturer = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Model = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     PhysicalCoreCount = table.Column<int>(type: "INTEGER", nullable: false),
                     LogicalThreadCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    RamGb = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
-                    OperatingSystem = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HostConfigurations", x => x.Id);
+                    table.PrimaryKey("PK_CpuModels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,6 +59,20 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IssueSeverities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OperatingSystems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Version = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperatingSystems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,6 +100,33 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StageTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HostConfigurations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CpuModelId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RamGb = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
+                    OperatingSystemId = table.Column<int>(type: "INTEGER", nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HostConfigurations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HostConfigurations_CpuModels_CpuModelId",
+                        column: x => x.CpuModelId,
+                        principalTable: "CpuModels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HostConfigurations_OperatingSystems_OperatingSystemId",
+                        column: x => x.OperatingSystemId,
+                        principalTable: "OperatingSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,7 +229,7 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BuildStages_ProjectId_StageTypeId_StartedAt",
                 table: "BuildStages",
-                columns: BuildStagesColumns,
+                columns: BuildStagesIndexColumns,
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -205,10 +249,21 @@ namespace Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HostConfigurations_CpuModel_PhysicalCoreCount_LogicalThreadCount_RamGb_OperatingSystem",
-                table: "HostConfigurations",
-                columns: HostConfigurationsColumns,
+                name: "IX_CpuModels_Manufacturer_Model",
+                table: "CpuModels",
+                columns: CpuModelsIndexColumns,
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HostConfigurations_CpuModelId_RamGb_OperatingSystemId",
+                table: "HostConfigurations",
+                columns: HostConfigurationsIndexColumns,
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HostConfigurations_OperatingSystemId",
+                table: "HostConfigurations",
+                column: "OperatingSystemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueLogs_BuildStageId",
@@ -224,6 +279,12 @@ namespace Data.Migrations
                 name: "IX_IssueSeverities_Name",
                 table: "IssueSeverities",
                 column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OperatingSystems_Name_Version",
+                table: "OperatingSystems",
+                columns: OperatingSystemsIndexColumns,
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -275,6 +336,12 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "StageTypes");
+
+            migrationBuilder.DropTable(
+                name: "CpuModels");
+
+            migrationBuilder.DropTable(
+                name: "OperatingSystems");
         }
     }
 }

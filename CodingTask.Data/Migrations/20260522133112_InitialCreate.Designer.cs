@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260515155319_InitialCreate")]
+    [Migration("20260522133112_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -78,21 +78,21 @@ namespace Data.Migrations
                     b.ToTable("BuildStatuses");
                 });
 
-            modelBuilder.Entity("CodingTask.Data.Entities.HostConfiguration", b =>
+            modelBuilder.Entity("CodingTask.Data.Entities.CpuModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CpuModel")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("LogicalThreadCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("OperatingSystem")
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -100,12 +100,34 @@ namespace Data.Migrations
                     b.Property<int>("PhysicalCoreCount")
                         .HasColumnType("INTEGER");
 
+                    b.HasKey("Id");
+
+                    b.HasIndex("Manufacturer", "Model")
+                        .IsUnique();
+
+                    b.ToTable("CpuModels");
+                });
+
+            modelBuilder.Entity("CodingTask.Data.Entities.HostConfiguration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CpuModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatingSystemId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("RamGb")
                         .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CpuModel", "PhysicalCoreCount", "LogicalThreadCount", "RamGb", "OperatingSystem")
+                    b.HasIndex("OperatingSystemId");
+
+                    b.HasIndex("CpuModelId", "RamGb", "OperatingSystemId")
                         .IsUnique();
 
                     b.ToTable("HostConfigurations");
@@ -160,6 +182,30 @@ namespace Data.Migrations
                         .IsUnique();
 
                     b.ToTable("IssueSeverities");
+                });
+
+            modelBuilder.Entity("CodingTask.Data.Entities.OperatingSystem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name", "Version")
+                        .IsUnique();
+
+                    b.ToTable("OperatingSystems");
                 });
 
             modelBuilder.Entity("CodingTask.Data.Entities.Project", b =>
@@ -270,6 +316,25 @@ namespace Data.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("CodingTask.Data.Entities.HostConfiguration", b =>
+                {
+                    b.HasOne("CodingTask.Data.Entities.CpuModel", "CpuModel")
+                        .WithMany("HostConfigurations")
+                        .HasForeignKey("CpuModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodingTask.Data.Entities.OperatingSystem", "OperatingSystem")
+                        .WithMany("HostConfigurations")
+                        .HasForeignKey("OperatingSystemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CpuModel");
+
+                    b.Navigation("OperatingSystem");
+                });
+
             modelBuilder.Entity("CodingTask.Data.Entities.IssueLog", b =>
                 {
                     b.HasOne("CodingTask.Data.Entities.BuildStage", "BuildStage")
@@ -320,6 +385,11 @@ namespace Data.Migrations
                     b.Navigation("BuildStages");
                 });
 
+            modelBuilder.Entity("CodingTask.Data.Entities.CpuModel", b =>
+                {
+                    b.Navigation("HostConfigurations");
+                });
+
             modelBuilder.Entity("CodingTask.Data.Entities.HostConfiguration", b =>
                 {
                     b.Navigation("ThreadSpeedMetrics");
@@ -328,6 +398,11 @@ namespace Data.Migrations
             modelBuilder.Entity("CodingTask.Data.Entities.IssueSeverity", b =>
                 {
                     b.Navigation("IssueLogs");
+                });
+
+            modelBuilder.Entity("CodingTask.Data.Entities.OperatingSystem", b =>
+                {
+                    b.Navigation("HostConfigurations");
                 });
 
             modelBuilder.Entity("CodingTask.Data.Entities.Project", b =>
