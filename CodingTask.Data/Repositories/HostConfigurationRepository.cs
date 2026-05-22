@@ -1,9 +1,10 @@
 using CodingTask.Data.Entities;
+using CodingTask.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodingTask.Data.Repositories;
 
-public class HostConfigurationRepository : Repository<HostConfiguration>
+public class HostConfigurationRepository : Repository<HostConfiguration>, IHostConfigurationRepository
 {
     public HostConfigurationRepository(AppDbContext context)
         : base(context)

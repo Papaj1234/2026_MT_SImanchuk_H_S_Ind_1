@@ -1,9 +1,10 @@
 using CodingTask.Data.Entities;
+using CodingTask.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodingTask.Data.Repositories;
 
-public class ProjectRepository : Repository<Project>
+public class ProjectRepository : Repository<Project>, IProjectRepository
 {
     public ProjectRepository(AppDbContext context)
         : base(context)

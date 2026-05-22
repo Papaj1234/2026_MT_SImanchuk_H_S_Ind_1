@@ -1,9 +1,10 @@
 using CodingTask.Data.Entities;
+using CodingTask.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodingTask.Data.Repositories;
 
-public class StageTypeRepository : Repository<StageType>
+public class StageTypeRepository : Repository<StageType>, IStageTypeRepository
 {
     public StageTypeRepository(AppDbContext context)
         : base(context)
