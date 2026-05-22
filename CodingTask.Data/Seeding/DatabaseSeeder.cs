@@ -65,7 +65,5 @@ public class DatabaseSeeder
         var metric = this.factory.CreateThreadSpeedMetric(buildStage.Id, host.Id);
         await this.uow.ThreadSpeedMetrics.AddAsync(metric).ConfigureAwait(false);
         await this.uow.SaveChangesAsync().ConfigureAwait(false);
-
-
     }
 }

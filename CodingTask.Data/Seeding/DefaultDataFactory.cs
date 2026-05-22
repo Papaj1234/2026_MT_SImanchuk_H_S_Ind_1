@@ -11,28 +11,28 @@ public class DefaultDataFactory : IDataFactory
         this.projectPath = projectPath;
     }
 
-    public Project CreateProject() => new()
+    public Project CreateProject() => new ()
     {
         Name = "CodingTask",
         FolderPath = this.projectPath,
     };
 
-    public BuildStatus CreateBuildStatus(string name) => new()
+    public BuildStatus CreateBuildStatus(string name) => new ()
     {
         Name = name,
     };
 
-    public IssueSeverity CreateIssueSeverity(string name) => new()
+    public IssueSeverity CreateIssueSeverity(string name) => new ()
     {
         Name = name,
     };
 
-    public StageType CreateStageType(string name) => new()
+    public StageType CreateStageType(string name) => new ()
     {
         Name = name,
     };
 
-    public BuildStage CreateBuildStage(int projectId, int stageTypeId, int statusId) => new()
+    public BuildStage CreateBuildStage(int projectId, int stageTypeId, int statusId) => new ()
     {
         ProjectId = projectId,
         StageTypeId = stageTypeId,
@@ -43,7 +43,7 @@ public class DefaultDataFactory : IDataFactory
         WarningCount = 2,
     };
 
-    public IssueLog CreateIssueLog(int buildStageId, int severityId) => new()
+    public IssueLog CreateIssueLog(int buildStageId, int severityId) => new ()
     {
         BuildStageId = buildStageId,
         SeverityId = severityId,
@@ -52,7 +52,7 @@ public class DefaultDataFactory : IDataFactory
         Message = "The variable 'x' is declared but never used",
     };
 
-    public CpuModel CreateCpuModel() => new()
+    public CpuModel CreateCpuModel() => new ()
     {
         Manufacturer = "Intel",
         Model = "Core i7-12700K",
@@ -60,20 +60,20 @@ public class DefaultDataFactory : IDataFactory
         LogicalThreadCount = 20,
     };
 
-    public Entities.OperatingSystem CreateOperatingSystem() => new()
+    public Entities.OperatingSystem CreateOperatingSystem() => new ()
     {
         Name = "Windows",
         Version = "11 Pro",
     };
 
-    public HostConfiguration CreateHostConfiguration(int cpuModelId, int operatingSystemId) => new()
+    public HostConfiguration CreateHostConfiguration(int cpuModelId, int operatingSystemId) => new ()
     {
         CpuModelId = cpuModelId,
         RamGb = 32.0m,
         OperatingSystemId = operatingSystemId,
     };
 
-    public ThreadSpeedMetric CreateThreadSpeedMetric(int buildStageId, int hostConfigId) => new()
+    public ThreadSpeedMetric CreateThreadSpeedMetric(int buildStageId, int hostConfigId) => new ()
     {
         BuildStageId = buildStageId,
         HostConfigurationId = hostConfigId,

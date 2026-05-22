@@ -23,5 +23,4 @@ public interface IDataFactory
     HostConfiguration CreateHostConfiguration(int cpuModelId, int operatingSystemId);
 
     ThreadSpeedMetric CreateThreadSpeedMetric(int buildStageId, int hostConfigId);
-
 }
