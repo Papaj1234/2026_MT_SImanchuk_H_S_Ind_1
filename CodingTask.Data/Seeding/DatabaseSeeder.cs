@@ -66,12 +66,6 @@ public class DatabaseSeeder
         await this.uow.ThreadSpeedMetrics.AddAsync(metric).ConfigureAwait(false);
         await this.uow.SaveChangesAsync().ConfigureAwait(false);
 
-        var projectLatin = this.factory.CreateProjectLatin();
-        await this.uow.Projects.AddAsync(projectLatin).ConfigureAwait(false);
 
-        var projectCyrillic = this.factory.CreateProjectCyrillic();
-        await this.uow.Projects.AddAsync(projectCyrillic).ConfigureAwait(false);
-
-        await this.uow.SaveChangesAsync().ConfigureAwait(false);
     }
 }
