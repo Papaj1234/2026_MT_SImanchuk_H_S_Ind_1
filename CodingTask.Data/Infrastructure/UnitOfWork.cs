@@ -19,6 +19,8 @@ public class UnitOfWork : IUnitOfWork
         this.IssueLogs = new IssueLogRepository(context);
         this.HostConfigurations = new HostConfigurationRepository(context);
         this.ThreadSpeedMetrics = new ThreadSpeedMetricRepository(context);
+        this.CpuModels = new CpuModelRepository(context);
+        this.OperatingSystems = new OperatingSystemRepository(context);
     }
 
     public IProjectRepository Projects { get; }
@@ -36,6 +38,10 @@ public class UnitOfWork : IUnitOfWork
     public IHostConfigurationRepository HostConfigurations { get; }
 
     public IThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
+
+    public ICpuModelRepository CpuModels { get; }
+
+    public IOperatingSystemRepository OperatingSystems { get; }
 
     public async Task<int> SaveChangesAsync() =>
         await this.context.SaveChangesAsync().ConfigureAwait(false);

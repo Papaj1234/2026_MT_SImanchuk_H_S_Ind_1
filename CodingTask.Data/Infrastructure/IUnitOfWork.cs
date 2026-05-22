@@ -21,5 +21,9 @@ public interface IUnitOfWork : IDisposable
 
     IThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
 
+    ICpuModelRepository CpuModels { get; }
+
+    IOperatingSystemRepository OperatingSystems { get; }
+
     Task<int> SaveChangesAsync();
 }
