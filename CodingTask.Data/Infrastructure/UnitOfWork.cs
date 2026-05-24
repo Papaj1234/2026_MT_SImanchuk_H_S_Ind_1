@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
         this.ThreadSpeedMetrics = new ThreadSpeedMetricRepository(context);
         this.CpuModels = new CpuModelRepository(context);
         this.OperatingSystems = new OperatingSystemRepository(context);
+        this.MatrixBenchmarks = new MatrixBenchmarkRepository(context);
     }
 
     public IProjectRepository Projects { get; }
@@ -42,6 +43,8 @@ public class UnitOfWork : IUnitOfWork
     public ICpuModelRepository CpuModels { get; }
 
     public IOperatingSystemRepository OperatingSystems { get; }
+
+    public IMatrixBenchmarkRepository MatrixBenchmarks { get; }
 
     public async Task<int> SaveChangesAsync() =>
         await this.context.SaveChangesAsync().ConfigureAwait(false);

@@ -25,5 +25,7 @@ public interface IUnitOfWork : IDisposable
 
     IOperatingSystemRepository OperatingSystems { get; }
 
+    IMatrixBenchmarkRepository MatrixBenchmarks { get; }
+
     Task<int> SaveChangesAsync();
 }
