@@ -1,24 +1,29 @@
 using CodingTask.Data.Repositories;
+using CodingTask.Data.Repositories.Interfaces;
 
 namespace CodingTask.Data.Infrastructure;
 
 public interface IUnitOfWork : IDisposable
 {
-    ProjectRepository Projects { get; }
+    IProjectRepository Projects { get; }
 
-    StageTypeRepository StageTypes { get; }
+    IStageTypeRepository StageTypes { get; }
 
-    BuildStatusRepository BuildStatuses { get; }
+    IBuildStatusRepository BuildStatuses { get; }
 
-    IssueSeverityRepository IssueSeverities { get; }
+    IIssueSeverityRepository IssueSeverities { get; }
 
-    BuildStageRepository BuildStages { get; }
+    IBuildStageRepository BuildStages { get; }
 
-    IssueLogRepository IssueLogs { get; }
+    IIssueLogRepository IssueLogs { get; }
 
-    HostConfigurationRepository HostConfigurations { get; }
+    IHostConfigurationRepository HostConfigurations { get; }
 
-    ThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
+    IThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
+
+    ICpuModelRepository CpuModels { get; }
+
+    IOperatingSystemRepository OperatingSystems { get; }
 
     Task<int> SaveChangesAsync();
 }

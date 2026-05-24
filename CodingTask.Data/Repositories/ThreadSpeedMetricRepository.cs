@@ -1,9 +1,10 @@
 using CodingTask.Data.Entities;
+using CodingTask.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodingTask.Data.Repositories;
 
-public class ThreadSpeedMetricRepository : Repository<ThreadSpeedMetric>
+public class ThreadSpeedMetricRepository : Repository<ThreadSpeedMetric>, IThreadSpeedMetricRepository
 {
     public ThreadSpeedMetricRepository(AppDbContext context)
         : base(context)

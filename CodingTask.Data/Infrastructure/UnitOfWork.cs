@@ -1,4 +1,5 @@
 using CodingTask.Data.Repositories;
+using CodingTask.Data.Repositories.Interfaces;
 
 namespace CodingTask.Data.Infrastructure;
 
@@ -18,23 +19,29 @@ public class UnitOfWork : IUnitOfWork
         this.IssueLogs = new IssueLogRepository(context);
         this.HostConfigurations = new HostConfigurationRepository(context);
         this.ThreadSpeedMetrics = new ThreadSpeedMetricRepository(context);
+        this.CpuModels = new CpuModelRepository(context);
+        this.OperatingSystems = new OperatingSystemRepository(context);
     }
 
-    public ProjectRepository Projects { get; }
+    public IProjectRepository Projects { get; }
 
-    public StageTypeRepository StageTypes { get; }
+    public IStageTypeRepository StageTypes { get; }
 
-    public BuildStatusRepository BuildStatuses { get; }
+    public IBuildStatusRepository BuildStatuses { get; }
 
-    public IssueSeverityRepository IssueSeverities { get; }
+    public IIssueSeverityRepository IssueSeverities { get; }
 
-    public BuildStageRepository BuildStages { get; }
+    public IBuildStageRepository BuildStages { get; }
 
-    public IssueLogRepository IssueLogs { get; }
+    public IIssueLogRepository IssueLogs { get; }
 
-    public HostConfigurationRepository HostConfigurations { get; }
+    public IHostConfigurationRepository HostConfigurations { get; }
 
-    public ThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
+    public IThreadSpeedMetricRepository ThreadSpeedMetrics { get; }
+
+    public ICpuModelRepository CpuModels { get; }
+
+    public IOperatingSystemRepository OperatingSystems { get; }
 
     public async Task<int> SaveChangesAsync() =>
         await this.context.SaveChangesAsync().ConfigureAwait(false);

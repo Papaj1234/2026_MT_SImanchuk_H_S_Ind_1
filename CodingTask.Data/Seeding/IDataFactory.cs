@@ -16,7 +16,11 @@ public interface IDataFactory
 
     IssueLog CreateIssueLog(int buildStageId, int severityId);
 
-    HostConfiguration CreateHostConfiguration();
+    CpuModel CreateCpuModel();
+
+    Entities.OperatingSystem CreateOperatingSystem();
+
+    HostConfiguration CreateHostConfiguration(int cpuModelId, int operatingSystemId);
 
     ThreadSpeedMetric CreateThreadSpeedMetric(int buildStageId, int hostConfigId);
 }

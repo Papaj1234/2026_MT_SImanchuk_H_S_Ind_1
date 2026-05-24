@@ -52,13 +52,25 @@ public class DefaultDataFactory : IDataFactory
         Message = "The variable 'x' is declared but never used",
     };
 
-    public HostConfiguration CreateHostConfiguration() => new ()
+    public CpuModel CreateCpuModel() => new ()
     {
-        CpuModel = "Intel Core i7-12700K",
+        Manufacturer = "Intel",
+        Model = "Core i7-12700K",
         PhysicalCoreCount = 12,
         LogicalThreadCount = 20,
+    };
+
+    public Entities.OperatingSystem CreateOperatingSystem() => new ()
+    {
+        Name = "Windows",
+        Version = "11 Pro",
+    };
+
+    public HostConfiguration CreateHostConfiguration(int cpuModelId, int operatingSystemId) => new ()
+    {
+        CpuModelId = cpuModelId,
         RamGb = 32.0m,
-        OperatingSystem = "Windows 11",
+        OperatingSystemId = operatingSystemId,
     };
 
     public ThreadSpeedMetric CreateThreadSpeedMetric(int buildStageId, int hostConfigId) => new ()

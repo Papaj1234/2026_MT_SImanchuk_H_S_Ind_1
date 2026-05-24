@@ -1,9 +1,10 @@
 using CodingTask.Data.Entities;
+using CodingTask.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodingTask.Data.Repositories;
 
-public class BuildStageRepository : Repository<BuildStage>
+public class BuildStageRepository : Repository<BuildStage>, IBuildStageRepository
 {
     public BuildStageRepository(AppDbContext context)
         : base(context)

@@ -6,20 +6,18 @@ namespace CodingTask.Data.Entities;
 [Table("HostConfigurations")]
 public class HostConfiguration : BaseEntity
 {
-    [Required]
-    [MaxLength(200)]
-    public string CpuModel { get; set; } = string.Empty;
+    public int CpuModelId { get; set; }
 
-    public int PhysicalCoreCount { get; set; }
-
-    public int LogicalThreadCount { get; set; }
+    [ForeignKey(nameof(CpuModelId))]
+    public CpuModel CpuModel { get; set; } = null!;
 
     [Column(TypeName = "decimal(5,2)")]
     public decimal RamGb { get; set; }
 
-    [Required]
-    [MaxLength(200)]
-    public string OperatingSystem { get; set; } = string.Empty;
+    public int OperatingSystemId { get; set; }
+
+    [ForeignKey(nameof(OperatingSystemId))]
+    public OperatingSystem OperatingSystem { get; set; } = null!;
 
     public ICollection<ThreadSpeedMetric> ThreadSpeedMetrics { get; } = new List<ThreadSpeedMetric>();
 }
