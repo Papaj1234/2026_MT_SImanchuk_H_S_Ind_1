@@ -26,34 +26,37 @@ namespace MatrixBenchmark
             var runner = new BenchmarkRunner(uow);
 
             Console.WriteLine("- 10x10 -");
-            var (a10r, b10r) = MatrixLoader.Load<RectMatrix<double>>(matrixDir, "matrix_10x10");
-            await runner.RunAsync(hostConfig.Id, "RectMatrix", 10, a10r, b10r).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "RectMatrix", 10,
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_A.bin")),
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 10,
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_A.bin")),
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 10,
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_A.bin")),
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_10x10_B.bin"))).ConfigureAwait(false);
 
-            var (a10j, b10j) = MatrixLoader.Load<JaggedMatrix<double>>(matrixDir, "matrix_10x10");
-            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 10, a10j, b10j).ConfigureAwait(false);
-
-            var (a10f, b10f) = MatrixLoader.Load<FlatMatrix<double>>(matrixDir, "matrix_10x10");
-            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 10, a10f, b10f).ConfigureAwait(false);
-
-            Console.WriteLine("- 500x500- ");
-            var (a500r, b500r) = MatrixLoader.Load<RectMatrix<double>>(matrixDir, "matrix_500x500");
-            await runner.RunAsync(hostConfig.Id, "RectMatrix", 500, a500r, b500r).ConfigureAwait(false);
-
-            var (a500j, b500j) = MatrixLoader.Load<JaggedMatrix<double>>(matrixDir, "matrix_500x500");
-            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 500, a500j, b500j).ConfigureAwait(false);
-
-            var (a500f, b500f) = MatrixLoader.Load<FlatMatrix<double>>(matrixDir, "matrix_500x500");
-            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 500, a500f, b500f).ConfigureAwait(false);
+            Console.WriteLine("- 500x500 -");
+            await runner.RunAsync(hostConfig.Id, "RectMatrix", 500,
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 500,
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 500,
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
 
             Console.WriteLine("- 2000x2000 -");
-            var (a2000r, b2000r) = MatrixLoader.Load<RectMatrix<double>>(matrixDir, "matrix_2000x2000");
-            await runner.RunAsync(hostConfig.Id, "RectMatrix", 2000, a2000r, b2000r).ConfigureAwait(false);
-
-            var (a2000j, b2000j) = MatrixLoader.Load<JaggedMatrix<double>>(matrixDir, "matrix_2000x2000");
-            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 2000, a2000j, b2000j).ConfigureAwait(false);
-
-            var (a2000f, b2000f) = MatrixLoader.Load<FlatMatrix<double>>(matrixDir, "matrix_2000x2000");
-            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 2000, a2000f, b2000f).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "RectMatrix", 2000,
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_A.bin")),
+                RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "JaggedMatrix", 2000,
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_A.bin")),
+                JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_B.bin"))).ConfigureAwait(false);
+            await runner.RunAsync(hostConfig.Id, "FlatMatrix", 2000,
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_A.bin")),
+                FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_2000x2000_B.bin"))).ConfigureAwait(false);
 
             BreakEvenAnalyzer.Analyze();
         }
