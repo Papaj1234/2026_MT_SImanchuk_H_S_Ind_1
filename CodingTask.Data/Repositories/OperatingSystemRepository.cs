@@ -10,8 +10,8 @@ public class OperatingSystemRepository : Repository<Entities.OperatingSystem>, I
     {
     }
 
-    public async Task<Entities.OperatingSystem?> GetExistingAsync(string name, string version) =>
-        await this.DbSet.FirstOrDefaultAsync(o =>
-            o.Name == name &&
-            o.Version == version).ConfigureAwait(false);
+    public async Task<CodingTask.Data.Entities.OperatingSystem?> GetExistingAsync(string name, string version) =>
+    await this.DbSet.FirstOrDefaultAsync(o =>
+        o.Name == name &&
+        o.Version == version).ConfigureAwait(false);
 }
