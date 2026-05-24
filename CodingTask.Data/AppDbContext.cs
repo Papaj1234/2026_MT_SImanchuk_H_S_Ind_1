@@ -30,6 +30,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Entities.OperatingSystem> OperatingSystems => this.Set<Entities.OperatingSystem>();
 
+    public DbSet<MatrixBenchmarkResult> MatrixBenchmarkResults => this.Set<MatrixBenchmarkResult>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Project>()
