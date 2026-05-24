@@ -8,14 +8,6 @@ namespace Data.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        private static readonly string[] BuildStagesIndexColumns = { "ProjectId", "StageTypeId", "StartedAt" };
-
-        private static readonly string[] CpuModelsIndexColumns = { "Manufacturer", "Model" };
-
-        private static readonly string[] HostConfigurationsIndexColumns = { "CpuModelId", "RamGb", "OperatingSystemId" };
-
-        private static readonly string[] OperatingSystemsIndexColumns = { "Name", "Version" };
-
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +17,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +33,7 @@ namespace Data.Migrations
                     Manufacturer = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Model = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     PhysicalCoreCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    LogicalThreadCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    LogicalThreadCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +46,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,7 +60,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Version = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Version = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +74,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    FolderPath = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    FolderPath = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +87,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +102,7 @@ namespace Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CpuModelId = table.Column<int>(type: "INTEGER", nullable: false),
                     RamGb = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
-                    OperatingSystemId = table.Column<int>(type: "INTEGER", nullable: false),
+                    OperatingSystemId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,7 +133,7 @@ namespace Data.Migrations
                     StartedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DurationMs = table.Column<long>(type: "INTEGER", nullable: false),
                     ErrorCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    WarningCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    WarningCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,6 +159,30 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MatrixBenchmarkResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    HostConfigurationId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MatrixType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    MatrixSize = table.Column<int>(type: "INTEGER", nullable: false),
+                    MethodName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    ElapsedMs = table.Column<long>(type: "INTEGER", nullable: false),
+                    MeasuredAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MatrixBenchmarkResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MatrixBenchmarkResults_HostConfigurations_HostConfigurationId",
+                        column: x => x.HostConfigurationId,
+                        principalTable: "HostConfigurations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IssueLogs",
                 columns: table => new
                 {
@@ -176,7 +192,7 @@ namespace Data.Migrations
                     SeverityId = table.Column<int>(type: "INTEGER", nullable: false),
                     LoggedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Code = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Message = table.Column<string>(type: "TEXT", nullable: false),
+                    Message = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,7 +223,7 @@ namespace Data.Migrations
                     MeasuredAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ParallelThreadCount = table.Column<int>(type: "INTEGER", nullable: false),
                     SequentialTimeMs = table.Column<long>(type: "INTEGER", nullable: false),
-                    ParallelTimeMs = table.Column<long>(type: "INTEGER", nullable: false),
+                    ParallelTimeMs = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,7 +245,7 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BuildStages_ProjectId_StageTypeId_StartedAt",
                 table: "BuildStages",
-                columns: BuildStagesIndexColumns,
+                columns: new[] { "ProjectId", "StageTypeId", "StartedAt" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -251,13 +267,13 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CpuModels_Manufacturer_Model",
                 table: "CpuModels",
-                columns: CpuModelsIndexColumns,
+                columns: new[] { "Manufacturer", "Model" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_HostConfigurations_CpuModelId_RamGb_OperatingSystemId",
                 table: "HostConfigurations",
-                columns: HostConfigurationsIndexColumns,
+                columns: new[] { "CpuModelId", "RamGb", "OperatingSystemId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -282,9 +298,14 @@ namespace Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MatrixBenchmarkResults_HostConfigurationId",
+                table: "MatrixBenchmarkResults",
+                column: "HostConfigurationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OperatingSystems_Name_Version",
                 table: "OperatingSystems",
-                columns: OperatingSystemsIndexColumns,
+                columns: new[] { "Name", "Version" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -315,6 +336,9 @@ namespace Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "IssueLogs");
+
+            migrationBuilder.DropTable(
+                name: "MatrixBenchmarkResults");
 
             migrationBuilder.DropTable(
                 name: "ThreadSpeedMetrics");

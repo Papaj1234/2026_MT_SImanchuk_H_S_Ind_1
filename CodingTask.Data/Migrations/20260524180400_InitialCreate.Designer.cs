@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260522133112_InitialCreate")]
+    [Migration("20260524180400_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -184,6 +184,41 @@ namespace Data.Migrations
                     b.ToTable("IssueSeverities");
                 });
 
+            modelBuilder.Entity("CodingTask.Data.Entities.MatrixBenchmarkResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ElapsedMs")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HostConfigurationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MatrixSize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MatrixType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("MeasuredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MethodName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostConfigurationId");
+
+                    b.ToTable("MatrixBenchmarkResults");
+                });
+
             modelBuilder.Entity("CodingTask.Data.Entities.OperatingSystem", b =>
                 {
                     b.Property<int>("Id")
@@ -352,6 +387,17 @@ namespace Data.Migrations
                     b.Navigation("BuildStage");
 
                     b.Navigation("Severity");
+                });
+
+            modelBuilder.Entity("CodingTask.Data.Entities.MatrixBenchmarkResult", b =>
+                {
+                    b.HasOne("CodingTask.Data.Entities.HostConfiguration", "HostConfiguration")
+                        .WithMany()
+                        .HasForeignKey("HostConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HostConfiguration");
                 });
 
             modelBuilder.Entity("CodingTask.Data.Entities.ThreadSpeedMetric", b =>
