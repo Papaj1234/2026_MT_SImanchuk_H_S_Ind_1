@@ -11,7 +11,7 @@ public class MatrixBenchmarkRepository : Repository<MatrixBenchmarkResult>, IMat
     {
     }
 
-    public async Task<IEnumerable<MatrixBenchmarkResult>> GetByMatrixTypeAsync(string matrixType) =>
+    public async Task<IEnumerable<MatrixBenchmarkResult>> GetByMatrixTypeAsync(MatrixType matrixType) =>
         await this.DbSet
             .Include(m => m.HostConfiguration)
             .Where(m => m.MatrixType == matrixType)
