@@ -27,5 +27,7 @@ public interface IUnitOfWork : IDisposable
 
     IMatrixBenchmarkRepository MatrixBenchmarks { get; }
 
+    IHttpScanRunRepository HttpScanRuns { get; }
+
     Task<int> SaveChangesAsync();
 }

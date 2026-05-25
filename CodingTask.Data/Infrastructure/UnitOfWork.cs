@@ -22,6 +22,7 @@ public class UnitOfWork : IUnitOfWork
         this.CpuModels = new CpuModelRepository(context);
         this.OperatingSystems = new OperatingSystemRepository(context);
         this.MatrixBenchmarks = new MatrixBenchmarkRepository(context);
+        this.HttpScanRuns = new HttpScanRunRepository(context);
     }
 
     public IProjectRepository Projects { get; }
@@ -45,6 +46,8 @@ public class UnitOfWork : IUnitOfWork
     public IOperatingSystemRepository OperatingSystems { get; }
 
     public IMatrixBenchmarkRepository MatrixBenchmarks { get; }
+
+    public IHttpScanRunRepository HttpScanRuns { get; }
 
     public async Task<int> SaveChangesAsync() =>
         await this.context.SaveChangesAsync().ConfigureAwait(false);

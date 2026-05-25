@@ -32,6 +32,8 @@ public class AppDbContext : DbContext
 
     public DbSet<MatrixBenchmarkResult> MatrixBenchmarkResults => this.Set<MatrixBenchmarkResult>();
 
+    public DbSet<HttpScanRun> HttpScanRuns => this.Set<HttpScanRun>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Project>()
