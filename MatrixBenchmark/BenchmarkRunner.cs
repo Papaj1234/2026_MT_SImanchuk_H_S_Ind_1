@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CodingTask.Data.Entities;
 using CodingTask.Data.Infrastructure;
 using ParallelGenericMatrix;
 
@@ -15,22 +16,22 @@ namespace MatrixBenchmark
             this.saver = new BenchmarkSaver(uow);
         }
 
-        internal async Task RunAsync(int hostConfigId, string matrixType, int size, IMatrix<double> a, IMatrix<double> b)
+        internal async Task RunAsync(int hostConfigId, MatrixType matrixType, int size, IMatrix<double> a, IMatrix<double> b)
         {
-            await this.MeasureAsync(hostConfigId, matrixType, size, "AddByRowsSequential", () => a.AddByRowsSequential(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "AddByRowsParallel", () => a.AddByRowsParallel(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "AddByColumnsSequential", () => a.AddByColumnsSequential(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "AddByColumnsParallel", () => a.AddByColumnsParallel(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplySequential", () => a.MultiplySequential(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplyParallel", () => a.MultiplyParallel(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplyOptimSequential", () => a.MultiplyOptimSequential(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplyOptimParallel", () => a.MultiplyOptimParallel(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplyNaiveSequential", () => a.MultiplyNaiveSequential(b)).ConfigureAwait(false);
-            await this.MeasureAsync(hostConfigId, matrixType, size, "MultiplyNaiveParallel", () => a.MultiplyNaiveParallel(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.AddByRowsSequential, () => a.AddByRowsSequential(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.AddByRowsParallel, () => a.AddByRowsParallel(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.AddByColumnsSequential, () => a.AddByColumnsSequential(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.AddByColumnsParallel, () => a.AddByColumnsParallel(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplySequential, () => a.MultiplySequential(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplyParallel, () => a.MultiplyParallel(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplyOptimSequential, () => a.MultiplyOptimSequential(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplyOptimParallel, () => a.MultiplyOptimParallel(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplyNaiveSequential, () => a.MultiplyNaiveSequential(b)).ConfigureAwait(false);
+            await this.MeasureAsync(hostConfigId, matrixType, size, MatrixMethod.MultiplyNaiveParallel, () => a.MultiplyNaiveParallel(b)).ConfigureAwait(false);
             Console.WriteLine();
         }
 
-        private async Task MeasureAsync(int hostConfigId, string matrixType, int size, string method, Action action)
+        private async Task MeasureAsync(int hostConfigId, MatrixType matrixType, int size, MatrixMethod method, Action action)
         {
             var sw = Stopwatch.StartNew();
             action();
