@@ -14,7 +14,7 @@ namespace MatrixBenchmark
             this.uow = uow;
         }
 
-        internal async Task SaveAsync(int hostConfigId, string matrixType, int size, string method, long elapsedMs)
+        internal async Task SaveAsync(int hostConfigId, MatrixType matrixType, int size, MatrixMethod method, long elapsedMs)
         {
             await this.uow.MatrixBenchmarks.AddAsync(new MatrixBenchmarkResult
             {
