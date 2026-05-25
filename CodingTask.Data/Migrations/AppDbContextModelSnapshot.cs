@@ -196,18 +196,14 @@ namespace Data.Migrations
                     b.Property<int>("MatrixSize")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("MatrixType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("MatrixType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("MeasuredAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MethodName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("MethodName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
