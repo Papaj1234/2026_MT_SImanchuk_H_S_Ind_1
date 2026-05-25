@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodingTask.Data.Entities;
@@ -12,15 +11,11 @@ public class MatrixBenchmarkResult : BaseEntity
     [ForeignKey(nameof(HostConfigurationId))]
     public HostConfiguration HostConfiguration { get; set; } = null!;
 
-    [Required]
-    [MaxLength(50)]
-    public string MatrixType { get; set; } = string.Empty;
+    public MatrixType MatrixType { get; set; }
 
     public int MatrixSize { get; set; }
 
-    [Required]
-    [MaxLength(100)]
-    public string MethodName { get; set; } = string.Empty;
+    public MatrixMethod MethodName { get; set; }
 
     public long ElapsedMs { get; set; }
 
