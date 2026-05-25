@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixGenerator", "MatrixGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixBenchmark", "MatrixBenchmark\MatrixBenchmark.csproj", "{16CDE876-F246-4986-8F02-2058DA8CF3DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpScanner", "HttpScanner\HttpScanner.csproj", "{B34542B0-C9C9-4DB1-AC6D-09BDFFFE01FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{16CDE876-F246-4986-8F02-2058DA8CF3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16CDE876-F246-4986-8F02-2058DA8CF3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16CDE876-F246-4986-8F02-2058DA8CF3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B34542B0-C9C9-4DB1-AC6D-09BDFFFE01FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34542B0-C9C9-4DB1-AC6D-09BDFFFE01FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34542B0-C9C9-4DB1-AC6D-09BDFFFE01FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34542B0-C9C9-4DB1-AC6D-09BDFFFE01FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
