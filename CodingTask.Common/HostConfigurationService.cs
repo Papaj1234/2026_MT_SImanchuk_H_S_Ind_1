@@ -2,7 +2,7 @@
 using CodingTask.Data.Entities;
 using CodingTask.Data.Infrastructure;
 
-namespace CodingTask.Shared.Services;
+namespace CodingTask.Common.Services;
 
 public sealed class HostConfigurationService
 {

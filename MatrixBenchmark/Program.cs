@@ -1,6 +1,7 @@
 ﻿using CodingTask.Data;
+using CodingTask.Data.Entities;
 using CodingTask.Data.Infrastructure;
-using CodingTask.Shared.Services;
+using CodingTask.Common.Services;
 using Microsoft.EntityFrameworkCore;
 using ParallelGenericMatrix;
 
