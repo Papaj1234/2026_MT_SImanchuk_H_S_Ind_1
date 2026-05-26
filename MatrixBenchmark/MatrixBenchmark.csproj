@@ -10,5 +10,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ParallelGenericMatrix\ParallelGenericMatrix.csproj" />
 		<ProjectReference Include="..\CodingTask.Data\Data.csproj" />
+		<ProjectReference Include="..\CodingTask.Shared\CodingTask.Shared.csproj" />
 	</ItemGroup>
 </Project>
