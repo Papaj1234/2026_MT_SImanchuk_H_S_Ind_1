@@ -6,7 +6,8 @@ namespace CodingTask.Data.Repositories;
 
 public class HttpScanRunRepository : Repository<HttpScanRun>, IHttpScanRunRepository
 {
-    public HttpScanRunRepository(AppDbContext context) : base(context)
+    public HttpScanRunRepository(AppDbContext context)
+        : base(context)
     {
     }
 
