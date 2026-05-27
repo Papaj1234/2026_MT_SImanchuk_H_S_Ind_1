@@ -46,6 +46,7 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
                 this.apiClient.Dispose();
                 this.downloadClient.Dispose();
             }
+
             this.disposed = true;
         }
     }
