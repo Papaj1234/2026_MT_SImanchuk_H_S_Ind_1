@@ -2,11 +2,11 @@ namespace CodingTask.HttpScanner.Helpers;
 
 public static class FileNameHelper
 {
-    public static string ToFileName(Uri url)
+    public static string ToFileName(string url)
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        return url.ToString()
+        return url
             .Replace("https://", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace("http://", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace(":", "_", StringComparison.Ordinal)
