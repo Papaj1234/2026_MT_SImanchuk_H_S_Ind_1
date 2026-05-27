@@ -8,7 +8,7 @@ internal static class ParallelRunner
         Func<string, Task> action,
         CancellationToken ct)
     {
-        var semaphore = new SemaphoreSlim(maxParallelism);
+        using var semaphore = new SemaphoreSlim(maxParallelism);
 
         var tasks = urls.Select(async url =>
         {

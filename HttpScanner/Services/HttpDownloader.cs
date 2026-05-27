@@ -1,53 +1,78 @@
-using CodingTask.HttpScanner.Interfaces;
-using CodingTask.HttpScanner.Models;
+using CodingTask.HttpScanner.Helpers;
 
 namespace CodingTask.HttpScanner.Services;
 
-public sealed class HttpScannerService : IHttpProcessor, IDisposable
+internal sealed class HttpDownloader
 {
-    private readonly HttpClient apiClient;
-    private readonly HttpClient downloadClient;
-    private readonly HttpAnalyzer analyzer;
-    private readonly HttpDownloader downloader;
-    private bool disposed;
+    private const long MaxFileSizeBytes = 10 * 1024 * 1024;
+    private readonly HttpClient client;
 
-    public HttpScannerService()
+    internal HttpDownloader(HttpClient client)
     {
-        this.apiClient = HttpClientFactory.CreateApiClient();
-        this.downloadClient = HttpClientFactory.CreateDownloadClient();
-        this.analyzer = new HttpAnalyzer(this.apiClient);
-        this.downloader = new HttpDownloader(this.downloadClient);
+        this.client = client;
     }
 
-    public Task<IEnumerable<ScanResult>> AnalyzeAsync(
-        IEnumerable<string> urls,
-        int maxParallelism,
-        CancellationToken ct) =>
-        this.analyzer.AnalyzeAsync(urls, maxParallelism, ct);
-
-    public Task DownloadAsync(
+    internal async Task DownloadAsync(
         IEnumerable<string> urls,
         string destinationDir,
         int maxParallelism,
-        CancellationToken ct) =>
-        this.downloader.DownloadAsync(urls, destinationDir, maxParallelism, ct);
-
-    public void Dispose()
+        CancellationToken ct)
     {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
+        Directory.CreateDirectory(destinationDir);
+
+        await ParallelRunner.ForEachAsync(
+            urls,
+            maxParallelism,
+            url => this.DownloadUrlAsync(url, destinationDir, ct),
+            ct)
+            .ConfigureAwait(false);
     }
 
-    private void Dispose(bool disposing)
+    private async Task DownloadUrlAsync(string url, string destinationDir, CancellationToken ct)
     {
-        if (!this.disposed)
+        try
         {
-            if (disposing)
+            var uri = new Uri(url);
+            using var response = await this.client
+                .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, ct)
+                .ConfigureAwait(false);
+
+            response.EnsureSuccessStatusCode();
+
+            var contentLength = response.Content.Headers.ContentLength;
+            if (contentLength.HasValue && contentLength.Value > MaxFileSizeBytes)
             {
-                this.apiClient.Dispose();
-                this.downloadClient.Dispose();
+                Console.WriteLine($"Skipped (too large): {url}");
+                return;
             }
-            this.disposed = true;
+
+            var fileName = FileNameHelper.ToFileName(url);
+            var filePath = Path.Combine(destinationDir, fileName);
+
+            var fileStream = new FileStream(
+                filePath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                bufferSize: 4096,
+                useAsync: true);
+
+            await using (fileStream.ConfigureAwait(false))
+            {
+                await response.Content.CopyToAsync(fileStream, ct).ConfigureAwait(false);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Download error [{url}]: {ex.Message}");
+        }
+        catch (TaskCanceledException ex)
+        {
+            Console.WriteLine($"Timeout [{url}]: {ex.Message}");
+        }
+        catch (UriFormatException ex)
+        {
+            Console.WriteLine($"Invalid URL [{url}]: {ex.Message}");
         }
     }
 }

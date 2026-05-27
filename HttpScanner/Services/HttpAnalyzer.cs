@@ -21,11 +21,15 @@ internal sealed class HttpAnalyzer
     {
         var results = new ConcurrentBag<ScanResult>();
 
-        await ParallelRunner.ForEachAsync(urls, maxParallelism, async url =>
+        await ParallelRunner.ForEachAsync(
+            urls,
+            maxParallelism,
+            async url =>
         {
             var result = await this.ScanUrlAsync(url, ct).ConfigureAwait(false);
             results.Add(result);
-        }, ct).ConfigureAwait(false);
+        },
+            ct).ConfigureAwait(false);
 
         return results;
     }
