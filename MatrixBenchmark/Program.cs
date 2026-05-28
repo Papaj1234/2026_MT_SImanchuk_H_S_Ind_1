@@ -9,10 +9,13 @@ namespace MatrixBenchmark;
 
 internal sealed class Program
 {
+    private const string DefaultMatrixDir = @"..\MatrixGenerator\bin\Debug\net8.0\matrices";
+    private const string DefaultDbPath = @"..\CodingTask.Data\codingTask.db";
+
     private static async Task Main(string[] args)
     {
-        string matrixDir = args.Length > 0 ? args[0] : @"..\MatrixGenerator\bin\Debug\net8.0\matrices";
-        string dbPath = args.Length > 1 ? args[1] : @"..\CodingTask.Data\codingTask.db";
+        string matrixDir = args.Length > 0 ? args[0] : DefaultMatrixDir;
+        string dbPath = args.Length > 1 ? args[1] : DefaultDbPath;
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite($"Data Source={dbPath}")
@@ -43,8 +46,8 @@ internal sealed class Program
             JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
             JaggedMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
         await runner.RunAsync(hostConfig.Id, MatrixType.FlatMatrix, 500,
-            RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
-            RectMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
+            FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_A.bin")),
+            FlatMatrix<double>.LoadFromBinaresFile(Path.Combine(matrixDir, "matrix_500x500_B.bin"))).ConfigureAwait(false);
 
         Console.WriteLine("- 2000x2000 -");
         await runner.RunAsync(hostConfig.Id, MatrixType.RectMatrix, 2000,
