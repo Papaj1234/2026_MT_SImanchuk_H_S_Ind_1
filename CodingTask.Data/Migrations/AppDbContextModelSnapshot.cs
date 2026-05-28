@@ -130,6 +130,40 @@ namespace Data.Migrations
                     b.ToTable("HostConfigurations");
                 });
 
+            modelBuilder.Entity("CodingTask.Data.Entities.HttpScanRun", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ElapsedMs")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ErrorCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HostConfigurationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxParallelism")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("MeasuredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OperationType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SuccessCount")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostConfigurationId");
+
+                    b.ToTable("HttpScanRuns");
+                });
+
             modelBuilder.Entity("CodingTask.Data.Entities.IssueLog", b =>
                 {
                     b.Property<int>("Id")
@@ -361,6 +395,17 @@ namespace Data.Migrations
                     b.Navigation("CpuModel");
 
                     b.Navigation("OperatingSystem");
+                });
+
+            modelBuilder.Entity("CodingTask.Data.Entities.HttpScanRun", b =>
+                {
+                    b.HasOne("CodingTask.Data.Entities.HostConfiguration", "HostConfiguration")
+                        .WithMany()
+                        .HasForeignKey("HostConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HostConfiguration");
                 });
 
             modelBuilder.Entity("CodingTask.Data.Entities.IssueLog", b =>

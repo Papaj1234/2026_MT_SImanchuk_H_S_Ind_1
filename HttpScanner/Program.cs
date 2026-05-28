@@ -8,8 +8,16 @@ namespace CodingTask.HttpScanner;
 internal sealed class Program
 {
     private const string DefaultUrlsFile = "Resources/urls.txt";
-    private const string DefaultDbPath = @"..\CodingTask.Data\codingTask.db";
     private const string DefaultDownloadsDir = "downloads";
+
+    private static readonly string DefaultDbPath = Path.Combine(
+        AppContext.BaseDirectory,
+        "..",
+        "..",
+        "..",
+        "..",
+        "CodingTask.Data",
+        "codingTask.db");
 
     private static async Task Main(string[] args)
     {
@@ -22,6 +30,7 @@ internal sealed class Program
             .Options;
 
         using var dbContext = new AppDbContext(options);
+        await dbContext.Database.MigrateAsync().ConfigureAwait(false);
         using var uow = new UnitOfWork(dbContext);
         using var scanner = new HttpScannerService();
         using var cts = new CancellationTokenSource();
