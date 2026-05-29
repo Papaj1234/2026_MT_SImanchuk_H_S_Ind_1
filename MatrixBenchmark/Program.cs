@@ -7,7 +7,7 @@ using ParallelGenericMatrix;
 
 namespace MatrixBenchmark;
 
-internal sealed class Program
+internal static class Program
 {
     private const string DefaultMatrixDir = @"..\MatrixGenerator\bin\Debug\net8.0\matrices";
     private const string DefaultDbPath = @"..\CodingTask.Data\codingTask.db";
