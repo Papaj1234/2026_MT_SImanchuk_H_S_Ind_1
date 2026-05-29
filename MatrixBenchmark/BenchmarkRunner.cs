@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CodingTask.Data.Entities;
 using CodingTask.Data.Infrastructure;
 using ParallelGenericMatrix;
+using ParallelGenericMatrix.Interfaces;
 
 namespace MatrixBenchmark
 {

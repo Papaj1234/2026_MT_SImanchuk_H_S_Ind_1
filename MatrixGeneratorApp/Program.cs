@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MatrixGenerator;
 
-namespace MatrixGenerator
+namespace MatrixGeneratorApp
 {
-    internal sealed class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {

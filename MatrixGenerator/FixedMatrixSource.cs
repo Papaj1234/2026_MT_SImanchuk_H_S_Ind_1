@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MatrixGenerator.Interfaces;
 
 namespace MatrixGenerator
 {
-    internal sealed class FixedMatrixSource : IMatrixSource
+    public sealed class FixedMatrixSource : IMatrixSource
     {
         private readonly double[,] fixedData;
 
-        internal FixedMatrixSource(double[,] data)
+        public FixedMatrixSource(double[,] data)
         {
             fixedData = data;
         }

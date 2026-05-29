@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParallelGenericMatrix
+namespace ParallelGenericMatrix.Interfaces
 {
     public interface IMatrix<T> where T : INumber<T>
     {

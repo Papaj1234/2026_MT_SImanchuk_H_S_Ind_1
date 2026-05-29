@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal static class MatrixFileWriter
+    public static class MatrixFileWriter
     {
-        internal static void Write(string path, double[,] matrix)
+        public static void Write(string path, double[,] matrix)
         {
+            ArgumentNullException.ThrowIfNull(matrix);
+
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
             using var writer = new BinaryWriter(File.OpenWrite(path));
