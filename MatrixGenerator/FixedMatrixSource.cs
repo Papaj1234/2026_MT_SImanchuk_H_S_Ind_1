@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal sealed class FixedMatrixSource : IMatrixSource
+    public sealed class FixedMatrixSource : IMatrixSource
     {
         private readonly double[,] fixedData;
 
-        internal FixedMatrixSource(double[,] data)
+        public FixedMatrixSource(double[,] data)
         {
             fixedData = data;
         }

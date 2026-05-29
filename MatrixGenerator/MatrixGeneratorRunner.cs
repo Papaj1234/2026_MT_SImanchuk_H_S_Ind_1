@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal static class MatrixGeneratorRunner
+    public static class MatrixGeneratorRunner
     {
         private static readonly RandomMatrixSource Random = new();
 
-        internal static void Run(string outputDir)
+        public static void Run(string outputDir)
         {
             Directory.CreateDirectory(outputDir);
             var fixed10 = new FixedMatrixSource(Get10x10());

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal interface IMatrixSource
+    public interface IMatrixSource
     {
         double[,] Generate(int rows, int cols);
     }

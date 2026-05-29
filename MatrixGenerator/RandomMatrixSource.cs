@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MatrixGenerator
 {
-    internal sealed class RandomMatrixSource : IMatrixSource
+    public sealed class RandomMatrixSource : IMatrixSource
     {
         private readonly Random rng = new();
 
