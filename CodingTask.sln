@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixBenchmark", "MatrixBe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTask.Common", "CodingTask.Common\CodingTask.Common.csproj", "{FD9E705A-58FF-4A9A-9AF9-5E633E8D9B9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixGeneratorApp", "MatrixGeneratorApp\MatrixGeneratorApp.csproj", "{118DE570-5819-414A-BA1F-DE441C651FBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{FD9E705A-58FF-4A9A-9AF9-5E633E8D9B9B}.Release|x64.Build.0 = Release|Any CPU
 		{FD9E705A-58FF-4A9A-9AF9-5E633E8D9B9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD9E705A-58FF-4A9A-9AF9-5E633E8D9B9B}.Release|x86.Build.0 = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|x64.Build.0 = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Debug|x86.Build.0 = Debug|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|x64.ActiveCfg = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|x64.Build.0 = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|x86.ActiveCfg = Release|Any CPU
+		{118DE570-5819-414A-BA1F-DE441C651FBE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
