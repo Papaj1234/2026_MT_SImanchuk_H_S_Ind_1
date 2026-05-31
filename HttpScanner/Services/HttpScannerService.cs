@@ -1,6 +1,6 @@
+using CodingTask.HttpScanner.Helpers;
 using CodingTask.HttpScanner.Interfaces;
 using CodingTask.HttpScanner.Models;
-using CodingTask.HttpScanner.Services;
 
 namespace CodingTask.HttpScanner.Services;
 
@@ -26,12 +26,20 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
         CancellationToken ct) =>
         this.analyzer.AnalyzeAsync(urls, maxParallelism, ct);
 
-    public Task DownloadAsync(
+    public async Task DownloadAsync(
         IEnumerable<string> urls,
         string destinationDir,
         int maxParallelism,
-        CancellationToken ct) =>
-        this.downloader.DownloadAsync(urls, destinationDir, maxParallelism, ct);
+        CancellationToken ct)
+    {
+        Directory.CreateDirectory(destinationDir);
+
+        await ParallelRunner.ForEachAsync(
+            urls,
+            maxParallelism,
+            url => this.downloader.DownloadUrlAsync(url, destinationDir, ct),
+            ct).ConfigureAwait(false);
+    }
 
     public void Dispose()
     {
@@ -48,7 +56,6 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
                 this.apiClient.Dispose();
                 this.downloadClient.Dispose();
             }
-
             this.disposed = true;
         }
     }

@@ -12,23 +12,7 @@ internal sealed class HttpDownloader
         this.client = client;
     }
 
-    internal async Task DownloadAsync(
-        IEnumerable<string> urls,
-        string destinationDir,
-        int maxParallelism,
-        CancellationToken ct)
-    {
-        Directory.CreateDirectory(destinationDir);
-
-        await ParallelRunner.ForEachAsync(
-            urls,
-            maxParallelism,
-            url => this.DownloadUrlAsync(url, destinationDir, ct),
-            ct)
-            .ConfigureAwait(false);
-    }
-
-    private async Task DownloadUrlAsync(string url, string destinationDir, CancellationToken ct)
+    internal async Task DownloadUrlAsync(string url, string destinationDir, CancellationToken ct)
     {
         try
         {
