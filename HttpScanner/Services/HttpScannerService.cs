@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using CodingTask.HttpScanner.Helpers;
 using CodingTask.HttpScanner.Interfaces;
 using CodingTask.HttpScanner.Models;
@@ -20,11 +21,25 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
         this.downloader = new HttpDownloader(this.downloadClient);
     }
 
-    public Task<IEnumerable<ScanResult>> AnalyzeAsync(
+    public async Task<IEnumerable<ScanResult>> AnalyzeAsync(
         IEnumerable<string> urls,
         int maxParallelism,
-        CancellationToken ct) =>
-        this.analyzer.AnalyzeAsync(urls, maxParallelism, ct);
+        CancellationToken ct)
+    {
+        var results = new ConcurrentBag<ScanResult>();
+
+        await ParallelRunner.ForEachAsync(
+            urls,
+            maxParallelism,
+            async url =>
+            {
+                var result = await this.analyzer.ScanUrlAsync(url, ct).ConfigureAwait(false);
+                results.Add(result);
+            },
+            ct).ConfigureAwait(false);
+
+        return results;
+    }
 
     public async Task DownloadAsync(
         IEnumerable<string> urls,
@@ -56,6 +71,7 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
                 this.apiClient.Dispose();
                 this.downloadClient.Dispose();
             }
+
             this.disposed = true;
         }
     }

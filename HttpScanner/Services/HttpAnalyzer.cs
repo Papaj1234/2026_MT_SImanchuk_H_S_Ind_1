@@ -1,6 +1,4 @@
-using System.Collections.Concurrent;
 using System.Diagnostics;
-using CodingTask.HttpScanner.Helpers;
 using CodingTask.HttpScanner.Models;
 
 namespace CodingTask.HttpScanner.Services;
@@ -14,27 +12,7 @@ internal sealed class HttpAnalyzer
         this.client = client;
     }
 
-    internal async Task<IEnumerable<ScanResult>> AnalyzeAsync(
-        IEnumerable<string> urls,
-        int maxParallelism,
-        CancellationToken ct)
-    {
-        var results = new ConcurrentBag<ScanResult>();
-
-        await ParallelRunner.ForEachAsync(
-            urls,
-            maxParallelism,
-            async url =>
-        {
-            var result = await this.ScanUrlAsync(url, ct).ConfigureAwait(false);
-            results.Add(result);
-        },
-            ct).ConfigureAwait(false);
-
-        return results;
-    }
-
-    private async Task<ScanResult> ScanUrlAsync(string url, CancellationToken ct)
+    internal async Task<ScanResult> ScanUrlAsync(string url, CancellationToken ct)
     {
         var sw = Stopwatch.StartNew();
         try
