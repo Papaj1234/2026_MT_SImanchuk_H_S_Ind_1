@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using CodingTask.HttpScanner.Helpers;
 using CodingTask.HttpScanner.Interfaces;
 using CodingTask.HttpScanner.Models;
@@ -24,22 +23,12 @@ public sealed class HttpScannerService : IHttpProcessor, IDisposable
     public async Task<IEnumerable<ScanResult>> AnalyzeAsync(
         IEnumerable<string> urls,
         int maxParallelism,
-        CancellationToken ct)
-    {
-        var results = new ConcurrentBag<ScanResult>();
-
+        CancellationToken ct) =>
         await ParallelRunner.ForEachAsync(
             urls,
             maxParallelism,
-            async url =>
-            {
-                var result = await this.analyzer.ScanUrlAsync(url, ct).ConfigureAwait(false);
-                results.Add(result);
-            },
+            url => this.analyzer.ScanUrlAsync(url, ct),
             ct).ConfigureAwait(false);
-
-        return results;
-    }
 
     public async Task DownloadAsync(
         IEnumerable<string> urls,
