@@ -1,4 +1,4 @@
-namespace PerformanceAnalytics.Loading;
+namespace PerformanceAnalytics.Loading.Interfaces;
 
 public interface IAnalyticsDataLoader
 {
