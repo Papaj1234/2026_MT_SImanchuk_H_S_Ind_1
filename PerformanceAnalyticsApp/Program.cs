@@ -39,9 +39,12 @@ internal static class Program
 
         var matrixAnalytics = new MatrixAnalytics();
 
+        var speedupAnalytics = new SpeedupAnalytics();
+
         var reports = new List<IReport>
         {
             new TopMethodsReport(matrixAnalytics),
+            new SpeedupReport(speedupAnalytics),
         };
 
         var menu = new ReportMenu(reports);
