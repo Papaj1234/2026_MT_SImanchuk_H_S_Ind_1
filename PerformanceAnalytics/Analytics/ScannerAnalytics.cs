@@ -8,6 +8,8 @@ public sealed class ScannerAnalytics : IScannerAnalytics
 {
     public IReadOnlyList<ParallelismRow> ScannerParallelism(AnalyticsDataSet data)
     {
+        ArgumentNullException.ThrowIfNull(data);
+
         var grouped = data.ScanSamples
             .GroupBy(s => new { s.OperationType, s.MaxParallelism })
             .Select(g => new

@@ -8,7 +8,8 @@ public sealed class SpeedupAnalytics : ISpeedupAnalytics
 {
     public IReadOnlyList<SpeedupRow> Speedups(AnalyticsDataSet data)
     {
-        return this.BuildSpeedups(data)
+        ArgumentNullException.ThrowIfNull(data);
+        return BuildSpeedups(data)
             .OrderBy(r => r.Scope)
             .ThenBy(r => r.Operation)
             .ThenBy(r => r.MatrixSize)
@@ -17,13 +18,14 @@ public sealed class SpeedupAnalytics : ISpeedupAnalytics
 
     public IReadOnlyList<SpeedupRow> Anomalies(AnalyticsDataSet data)
     {
-        return this.BuildSpeedups(data)
+        ArgumentNullException.ThrowIfNull(data);
+        return BuildSpeedups(data)
             .Where(r => r.Speedup < 1.0)
             .OrderBy(r => r.Speedup)
             .ToList();
     }
 
-    private IEnumerable<SpeedupRow> BuildSpeedups(AnalyticsDataSet data)
+    private static IEnumerable<SpeedupRow> BuildSpeedups(AnalyticsDataSet data)
     {
         var matrixRows = data.MatrixSamples
             .GroupBy(s => new
@@ -79,4 +81,4 @@ public sealed class SpeedupAnalytics : ISpeedupAnalytics
 
         return matrixRows.Concat(scanRows);
     }
-} 
+}

@@ -2,22 +2,25 @@ using CodingTask.Data.Entities;
 
 namespace PerformanceAnalytics.Analytics;
 
-public static string BaseOperation(MatrixMethod method)
+public static class MethodNaming
 {
-    var name = method.ToString();
+    public static bool IsParallel(MatrixMethod method) =>
+        method.ToString().EndsWith("Parallel", StringComparison.Ordinal);
 
-    const string parallel = "Parallel";
-    const string sequential = "Sequential";
-
-    if (name.EndsWith(parallel, StringComparison.Ordinal))
+    public static string BaseOperation(MatrixMethod method)
     {
-        return name.Substring(0, name.Length - parallel.Length);
-    }
+        var name = method.ToString();
 
-    if (name.EndsWith(sequential, StringComparison.Ordinal))
-    {
-        return name.Substring(0, name.Length - sequential.Length);
-    }
+        if (name.EndsWith("Parallel", StringComparison.Ordinal))
+        {
+            return name[..^"Parallel".Length];
+        }
 
-    return name;
+        if (name.EndsWith("Sequential", StringComparison.Ordinal))
+        {
+            return name[..^"Sequential".Length];
+        }
+
+        return name;
+    }
 }

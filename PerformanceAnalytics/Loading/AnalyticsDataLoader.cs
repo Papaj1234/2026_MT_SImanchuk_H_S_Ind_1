@@ -64,9 +64,9 @@ public sealed class AnalyticsDataLoader : IAnalyticsDataLoader
     }
 
     private static (string HostLabel, string CpuLabel) BuildLabels(
-        HostConfiguration host,
-        IReadOnlyDictionary<int, CpuModel> cpuById,
-        IReadOnlyDictionary<int, OperatingSystem> osById)
+    HostConfiguration host,
+    Dictionary<int, CpuModel> cpuById,
+    Dictionary<int, OperatingSystem> osById)
     {
         var cpu = cpuById[host.CpuModelId];
         var os = osById[host.OperatingSystemId];

@@ -8,6 +8,8 @@ public sealed class MatrixAnalytics : IMatrixAnalytics
 {
     public IReadOnlyList<TopMethodRow> TopMethodsFor2000(AnalyticsDataSet data)
     {
+        ArgumentNullException.ThrowIfNull(data);
+
         return data.MatrixSamples
             .Where(s => s.MatrixSize == 2000)
             .GroupBy(s => new { s.MatrixType, s.Method })
