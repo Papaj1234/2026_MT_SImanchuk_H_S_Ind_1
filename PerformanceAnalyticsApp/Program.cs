@@ -1,10 +1,50 @@
-﻿namespace PerformanceAnalyticsApp
+﻿using CodingTask.Data;
+using CodingTask.Data.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using PerformanceAnalytics.Analytics;
+using PerformanceAnalytics.Loading;
+using PerformanceAnalyticsApp.Interfaces;
+using PerformanceAnalyticsApp.Menu;
+using PerformanceAnalyticsApp.Reports;
+using Spectre.Console;
+
+namespace PerformanceAnalyticsApp;
+
+internal static class Program
 {
-    internal class Program
+    private const string DatabaseFileName = "codingTask.db";
+
+    private static async Task Main()
     {
-        static void Main(string[] args)
+        var dbPath = Path.Combine(AppContext.BaseDirectory, DatabaseFileName);
+
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseSqlite($"Data Source={dbPath}")
+            .Options;
+
+        using var context = new AppDbContext(options);
+        await context.Database.MigrateAsync().ConfigureAwait(false);
+
+        using var unitOfWork = new UnitOfWork(context);
+
+        var loader = new AnalyticsDataLoader(unitOfWork);
+
+        AnalyticsDataSet data = null!;
+        await AnsiConsole.Status()
+            .StartAsync("Loading performance data from database...", async _ =>
+            {
+                data = await loader.LoadAsync().ConfigureAwait(false);
+            })
+            .ConfigureAwait(false);
+
+        var matrixAnalytics = new MatrixAnalytics();
+
+        var reports = new List<IReport>
         {
-            Console.WriteLine("Hello, World!");
-        }
+            new TopMethodsReport(matrixAnalytics),
+        };
+
+        var menu = new ReportMenu(reports);
+        menu.Run(data);
     }
 }
