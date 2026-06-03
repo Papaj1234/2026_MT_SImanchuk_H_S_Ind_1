@@ -45,6 +45,7 @@ internal static class Program
         {
             new TopMethodsReport(matrixAnalytics),
             new SpeedupReport(speedupAnalytics),
+            new AnomaliesReport(speedupAnalytics),
         };
 
         var menu = new ReportMenu(reports);
