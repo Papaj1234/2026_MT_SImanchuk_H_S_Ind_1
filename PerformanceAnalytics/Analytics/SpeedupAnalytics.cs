@@ -79,4 +79,4 @@ public sealed class SpeedupAnalytics : ISpeedupAnalytics
 
         return matrixRows.Concat(scanRows);
     }
-}
+} 
