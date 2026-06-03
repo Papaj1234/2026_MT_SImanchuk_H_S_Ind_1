@@ -12,9 +12,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\PerformanceAnalytics\PerformanceAnalytics.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Spectre.Console" Version="0.55.2" />
+		<None Include="..\CodingTask.Data\codingTask.db" CopyToOutputDirectory="PreserveNewest" Link="codingTask.db" />
 	</ItemGroup>
 </Project>
