@@ -27,6 +27,7 @@ public sealed class ReportMenu
                 new SelectionPrompt<string>()
                     .Title("[bold]Select a report:[/]")
                     .PageSize(10)
+                    .WrapAround()
                     .AddChoices(this.reports.Select(r => r.Title).Append(ExitLabel)));
 
             if (choice == ExitLabel)
