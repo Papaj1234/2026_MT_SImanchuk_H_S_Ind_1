@@ -1,3 +1,4 @@
+using System.Globalization;
 using PerformanceAnalytics.Dtos;
 using PerformanceAnalytics.Interfaces;
 using PerformanceAnalytics.Loading;
@@ -56,15 +57,17 @@ public sealed class SpeedupReport : IReport
 		foreach (var r in rows)
 		{
 			var color = r.Speedup >= 1.0 ? "green" : "red";
-			var speedup = $"[{color}]{r.Speedup:N2}x[/]";
+			var speedup = $"[{color}]{r.Speedup.ToString("N2", CultureInfo.InvariantCulture)}x[/]";
+			var seq = r.AvgSequentialMs.ToString("N1", CultureInfo.InvariantCulture);
+			var par = r.AvgParallelMs.ToString("N1", CultureInfo.InvariantCulture);
 
 			if (showSize)
 			{
-				table.AddRow(r.Operation, r.MatrixSize.ToString(), $"{r.AvgSequentialMs:N1}", $"{r.AvgParallelMs:N1}", speedup);
+				table.AddRow(r.Operation, r.MatrixSize.ToString(CultureInfo.InvariantCulture), seq, par, speedup);
 			}
 			else
 			{
-				table.AddRow(r.Operation, $"{r.AvgSequentialMs:N1}", $"{r.AvgParallelMs:N1}", speedup);
+				table.AddRow(r.Operation, seq, par, speedup);
 			}
 		}
 
