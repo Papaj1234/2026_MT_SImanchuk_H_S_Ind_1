@@ -10,6 +10,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\CodingTask.Data\CodingTask.Data.csproj" />
+		<ProjectReference Include="..\CodingTask.Data\Data.csproj" />
 	</ItemGroup>
 </Project>
