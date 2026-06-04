@@ -41,11 +41,18 @@ internal static class Program
 
         var speedupAnalytics = new SpeedupAnalytics();
 
+        var scannerAnalytics = new ScannerAnalytics();
+
+        var environmentAnalytics = new EnvironmentAnalytics();
+
         var reports = new List<IReport>
         {
             new TopMethodsReport(matrixAnalytics),
             new SpeedupReport(speedupAnalytics),
             new AnomaliesReport(speedupAnalytics),
+            new ScalabilityReport(matrixAnalytics),
+            new ParallelismReport(scannerAnalytics),
+            new EnvironmentReport(environmentAnalytics),
         };
 
         var menu = new ReportMenu(reports);
